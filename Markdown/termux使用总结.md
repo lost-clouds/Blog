@@ -55,15 +55,15 @@ chmod +x login_debian.sh
 通过ln 建个链接可以把个目录在termux与proot-distro间联通
 ```bash
 ## 这里是termux的~/目录,可以随便取名字
-mkdir shared
-cd shared && pwd
+mkdir TheFiles
+cd TheFiles && pwd
 # >>得到地址,一般是
-/data/data/com.termux/files/home/shared
+/data/data/com.termux/files/home/TheFiles
 
 ## 进入到了proot-distro容器的环境
 # 目录是 /root/ 
 # 当然如果你习惯用其他的目录位置也都可以
-ln -s /data/data/com.termux/files/home/shared ./
+ln -s /data/data/com.termux/files/home/TheFiles ./
 
 # 然后就可以在/root/目录下看到该目录了,这个目录是termux环境和proot-distro容器之间互通的,文件的更改也是同步的
 # 在这里提醒一句,最好不要su获取root之后再进入proot-distro环境,这会导致很多文件的归属问题,不知道会有什么奇奇怪怪的bug
@@ -223,7 +223,7 @@ finally:
     zeroconf.close()
 
     print("[INFO] Zeroconf stopped.")
-~/mdns $ cat config.json
+~/AIFiles/mdns $ cat config.json
 ```
 ### 2.2 config.json示例如下
 ```
@@ -492,10 +492,10 @@ SELECT User, Host FROM user;
 SHOW GRANTS FOR 'user'@'localhost' ON `nextcloud`.*;
 
 # 查询特定用户在特定主机上的权限
-SHOW GRANTS FOR 'username'@'localhost:7777';
+SHOW GRANTS FOR 'AIPING'@'localhost:7777';
 
 # 更改指定用户的密码为
-ALTER USER 'username'@'localhost' IDENTIFIED BY 'new_password';
+ALTER USER 'AIPING'@'localhost' IDENTIFIED BY 'new_password';
 FLUSH PRIVILEGES;
 
 ```
@@ -761,12 +761,12 @@ rmnet_data2: flags=65<UP,RUNNING>  mtu 1460
         unspec 00-00-00-00-00-00-00-00-00-00-00-00-00-00-00-00  txqueuelen 1000  (UNSPEC)
 
 rndis0: flags=4163<UP,BROADCAST,RUNNING,MULTICAST>  mtu 1500
-        inet 192.168.1.100  netmask 255.255.255.0  broadcast 192.168.1.255
+        inet 192.168.143.215  netmask 255.255.255.0  broadcast 192.168.143.255
         unspec 00-00-00-00-00-00-00-00-00-00-00-00-00-00-00-00  txqueuelen 1000  (UNSPEC)
 
-# 这里这个192.168.1.100就是设备在内网的IP了，将他输入到浏览器应该就可以看到默认界面了
+# 这里这个192.168.143.215就是设备在内网的IP了，将他输入到浏览器应该就可以看到默认界面了
 
-http://192.168.1.100
+http://192.168.143.215
 
 ```
 
@@ -783,7 +783,7 @@ vim nextcloud.conf
 ```bash
 <VirtualHost *:8080> # 这里我另一个机器用80端口会报错，所以就改成8080了 
   DocumentRoot /var/www/nextcloud/
-  ServerName  192.168.1.100   #修改自己的服务器IP或者域名
+  ServerName  192.168.143.215   #修改自己的服务器IP或者域名
 
   <Directory /var/www/nextcloud/>
     Require all granted
@@ -816,7 +816,7 @@ service apache2 restart
 然后就可以访问(http://yourip:yourport)设定管理员账户和密码，配置MySQL数据库接口
 这里IP就是`ifconfig`返回的那个内网地址；
 port就是在nextcloud.conf中配置的接口；
-我的配置是http://192.168.1.100:8080
+我的配置是http://192.168.143.215:8080
 
 如果完全和我的教程来,一字不改的话
 
