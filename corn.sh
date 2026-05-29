@@ -169,31 +169,76 @@ if command -v termux-battery-status &>/dev/null; then
 fi
 
 # ============================================================
-# 8. 写入 JSON
+# 8. 数值清洗（确保所有值都是合法 JSON）
 # ============================================================
+clean_num() {
+    local v="$1" def="${2:-0}"
+    # 去除空格，检查是否为有效数字
+    v=$(echo "$v" | xargs 2>/dev/null)
+    if [ -z "$v" ] || [ "$v" = "?" ] || [ "$v" = "-" ]; then
+        echo "$def"
+    else
+        # 匹配整数或小数
+        if echo "$v" | grep -qE '^[0-9]+\.?[0-9]*$'; then
+            echo "$v"
+        else
+            echo "$def"
+        fi
+    fi
+}
+
+clean_str() {
+    local v="$1" def="${2:-?}"
+    v=$(echo "$v" | xargs 2>/dev/null)
+    if [ -z "$v" ] || [ "$v" = "?" ]; then
+        echo "$def"
+    else
+        # 转义 JSON 特殊字符
+        echo "$v" | sed 's/\\/\\\\/g; s/"/\\"/g'
+    fi
+}
+
+# 清洗所有即将写入 JSON 的值
+V_CPU_USAGE=$(clean_num "$CPU_USAGE" "0")
+V_CPU_CORES=$(clean_num "$CPU_CORES" "0")
+V_CPU_MODEL=$(clean_str "$CPU_MODEL" "ARM")
+V_MEM_USED=$(clean_num "$MEM_USED_FMT" "0")
+V_MEM_TOTAL=$(clean_num "$MEM_TOTAL_FMT" "0")
+V_MEM_UNIT=$(clean_str "$MEM_UNIT" "MB")
+V_DISK_USED=$(clean_num "$DISK_USED_GB" "0")
+V_DISK_TOTAL=$(clean_num "$DISK_TOTAL_GB" "0")
+V_UPTIME=$(clean_str "$UPTIME" "?")
+V_DEV_MODEL=$(clean_str "$DEV_FULL" "Unknown")
+V_ANDROID=$(clean_str "$ANDROID_VER" "?")
+V_KERNEL=$(clean_str "$KERNEL_VER" "?")
+V_LOCAL_IP=$(clean_str "$LOCAL_IP" "")
+V_IPV6=$(clean_str "$IPV6_ADDR" "")
+V_IFACE=$(clean_str "$IFACE_NAME" "")
 
 # 网络部分
 NETWORK_BLOCK=""
-if [ -n "$LOCAL_IP" ]; then
-    NW_IFACE="${IFACE_NAME:-?}"
-    NETWORK_BLOCK="\"network\": {\"ip\": \"${LOCAL_IP}\", \"ipv6\": \"${IPV6_ADDR:-}\", \"iface\": \"${NW_IFACE}\"},"
+if [ -n "$V_LOCAL_IP" ] && [ "$V_LOCAL_IP" != "?" ]; then
+    NETWORK_BLOCK="\"network\": {\"ip\": \"${V_LOCAL_IP}\", \"ipv6\": \"${V_IPV6}\", \"iface\": \"${V_IFACE}\"},"
 fi
 
-# 电池部分（可选）
+# 电池部分
 BATTERY_BLOCK=""
 if [ -n "${BAT_LEVEL:-}" ] && [ -n "${BAT_STATUS:-}" ]; then
-    BATTERY_BLOCK=",\"battery\": {\"level\": ${BAT_LEVEL:-0}, \"status\": \"${BAT_STATUS:-Unknown}\", \"temp\": ${BAT_TEMP:-0}}"
+    B_LEVEL=$(clean_num "${BAT_LEVEL:-0}" "0")
+    B_STATUS=$(clean_str "${BAT_STATUS:-Unknown}" "Unknown")
+    B_TEMP=$(clean_num "${BAT_TEMP:-0}" "0")
+    BATTERY_BLOCK=",\"battery\": {\"level\": ${B_LEVEL}, \"status\": \"${B_STATUS}\", \"temp\": ${B_TEMP}}"
 fi
 
 mkdir -p "$(dirname "$OUTPUT")" 2>/dev/null || true
 
 cat > "$OUTPUT" <<EOF
 {
-  "device": {"model": "${DEV_FULL}", "android": "${ANDROID_VER}", "kernel": "${KERNEL_VER}"},
+  "device": {"model": "${V_DEV_MODEL}", "android": "${V_ANDROID}", "kernel": "${V_KERNEL}"},
   ${NETWORK_BLOCK}
-  "cpu": {"usage": ${CPU_USAGE:-0}, "cores": ${CPU_CORES:-?}, "model": "${CPU_MODEL:-?}"},
-  "memory": {"used": ${MEM_USED_FMT:-0}, "total": ${MEM_TOTAL_FMT:-0}, "unit": "${MEM_UNIT}"},
-  "disk": {"used": ${DISK_USED_GB:-0}, "total": ${DISK_TOTAL_GB:-0}, "unit": "GB"},
-  "uptime": "${UPTIME}"${BATTERY_BLOCK}
+  "cpu": {"usage": ${V_CPU_USAGE}, "cores": ${V_CPU_CORES}, "model": "${V_CPU_MODEL}"},
+  "memory": {"used": ${V_MEM_USED}, "total": ${V_MEM_TOTAL}, "unit": "${V_MEM_UNIT}"},
+  "disk": {"used": ${V_DISK_USED}, "total": ${V_DISK_TOTAL}, "unit": "GB"},
+  "uptime": "${V_UPTIME}"${BATTERY_BLOCK}
 }
 EOF
