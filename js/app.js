@@ -92,19 +92,24 @@
         // 4. 仪表盘（开始轮询）
         if (typeof Dashboard !== 'undefined') Dashboard.init();
 
-        // 5. 标签栏事件
+        // 5. 服务导航、博客、图库（预绑定 DOM 和事件）
+        if (typeof Navigation !== 'undefined') Navigation.init();
+        if (typeof Blog !== 'undefined') Blog.init();
+        if (typeof Gallery !== 'undefined') Gallery.init();
+
+        // 6. 标签栏事件
         if ($tabBar) $tabBar.addEventListener('click', onTabClick);
         if ($bottomNav) $bottomNav.addEventListener('click', onTabClick);
 
-        // 6. 主题按钮
+        // 7. 主题按钮
         var themeBtn = document.getElementById('themeToggleBtn');
         if (themeBtn) themeBtn.addEventListener('click', onThemeToggle);
 
-        // 7. URL hash 恢复
+        // 8. URL hash 恢复
         var hash = window.location.hash.replace('#', '');
         if (hash && TABS.indexOf(hash) !== -1) switchTab(hash);
 
-        // 8. 响应式
+        // 9. 响应式
         handleResize();
         window.addEventListener('resize', handleResize);
     }
