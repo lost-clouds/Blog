@@ -1,0 +1,23 @@
+# 系统文件
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+*~
+
+# IDE
+.vscode/
+.idea/
+*.sublime-*
+
+# 仪表盘数据（由 corn.sh 运行时生成，不应提交）
+dashboard.json
+
+
+# 日志
+*.log
+
+# 临时文件
+*.tmp
+*.bak
+dashboard.json
