@@ -547,3 +547,8 @@ pkg install termux-api
 | 响应式 | 3 个断点 (1200/640/400px) |
 | 懒加载 | 非当前标签不请求数据，KaTeX 按需加载 |
 | 兼容性 | `backdrop-filter` 回退纯色，`-webkit-` 前缀 |
+
+---
+## 友链
+
+[linux.do](https://linux.do)
