@@ -120,14 +120,25 @@
         if (els.batteryCard) els.batteryCard.style.display = 'none';
     }
 
+    var _fetchErrors = 0;
+
     async function fetchData() {
         try {
             var resp = await fetch('/api/dashboard');
             if (!resp.ok) throw new Error('HTTP ' + resp.status);
-            update(await resp.json());
+            var json = await resp.json();
+            _fetchErrors = 0;
+            update(json);
         } catch (err) {
-            console.warn('Dashboard: 数据获取失败', err);
-            reset();
+            _fetchErrors++;
+            console.warn('Dashboard: 获取失败 (' + _fetchErrors + ') — ' + err.message);
+            // 仅首次失败时显示提示（避免频繁闪烁）
+            if (_fetchErrors === 1) {
+                set(els.deviceValue, '无数据');
+                set(els.deviceSub, '检查 corn.sh / nginx /api/dashboard');
+            } else if (_fetchErrors > 5) {
+                reset();
+            }
         }
     }
 
