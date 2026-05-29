@@ -1,124 +1,49 @@
 ---
-# Homepage configuration
-# See https://fontawesome.com/search for icons options
+# Homer 配置示例（参考用，项目已迁移为 config.json）
+# 原配置中的个人信息已移除，保留结构供参考
 
-title: "控制台"
-subtitle: "Dashboard"
-logo: "logo.png"
-# icon: "fas fa-skull-crossbones" # Optional icon
+title: "Dashboard"
+subtitle: "服务导航"
 
 header: false
-footer: '<p>控制台 Dashboard</p>' # set false if you want to hide it.
-
-# Optional theme customization
-theme: default
+footer: false
 
 columns: "3"
 
 defaults:
   layout: list
 
-# Optional message
 message:
-  style: "is-dark" # See https://bulma.io/documentation/components/message/#colors for styling options.
-  title: "👋 Welcome!"
-  content: "Aping-Hub is a little Page for myself</a>"
+  style: "is-dark"
+  title: "Welcome!"
+  content: "个人服务导航页面"
 
-# Optional navbar
-# links: [] # Allows for navbar (dark mode, layout, and search) without any links
 links:
-  - name: "Contribute!"
+  - name: "GitHub"
     icon: "fab fa-github"
-    url: "https://github.com/bastienwirtz/homer"
-    target: "_blank" # optional html a tag target attribute
-  - name: "Documentation"
-    icon: "fas fa-book"
-    url: "https://github.com/bastienwirtz/homer/blob/main/README.md#table-of-contents"
-  # this will link to a second homer page that will load config from additional-page.yml and keep default config values as in config.yml file
-  # see url field and assets/additional-page.yml.dist used in this example:
-  - name: "another page!"
-    icon: "fas fa-file-alt"
-    url: "#additional-page" 
+    url: "https://github.com/example"
+    target: "_blank"
 
-# Services
-# First level array represent a group.
-# Leave only a "items" key if not using group (group name, icon & tagstyle are optional, section separation will not be displayed).
 services:
-  - name: "server"
-    icon: "fa-solid fa-arrow-right"
+  - name: "Server"
+    icon: "fa-solid fa-server"
     items:
-      - name: "llama.cpp-OT"
+      - name: "示例服务 1"
         icon: "fa-solid fa-download"
-        subtitle: "自部署的AI对话"
-        target: "_blank" # optional html a tag target attribute
-        tag: "AI-server"
-        url: "https://your-server.local:8443/llm/"
-      - name: "llama.cpp-Embedding"
+        subtitle: "服务描述"
+        tag: "tag-name"
+        url: "https://your-server.local:8443/service1/"
+      - name: "示例服务 2"
         icon: "fa-solid fa-download"
-        subtitle: "自部署的AI分词"
-        target: "_blank" # optional html a tag target attribute
-        tag: "AI-server"
-        url: "https://your-server.local:8443/embd/"
-      - name: "couchdb"
-        icon: "fa-solid fa-download"
-        subtitle: "自部署的CouchDB数据库"
-        target: "_blank" # optional html a tag target attribute
-        tag: "server"
-        url: "https://your-server.local:8443/couchdb/_utils/"
-      - name: "vaultwarden"
-        icon: "fa-solid fa-download"
-        subtitle: "自部署的bitwarden的web管理页面"
-        target: "_blank" # optional html a tag target attribute
-        tag: "server"
-        url: "https://your-server.local:8443/vaultwarden"
-      - name: "SE-CouchDB-WebUI"
-        icon: "fa-solid fa-download"
-        subtitle: "CouchDB数据库"
-        target: "_blank" # optional html a tag target attribute
-        tag: "AI-Agent"
-        url: "https://your-server.local:8877"
-      - name: "S-UI"
-        icon: "fa-solid fa-download"
-        subtitle: "代理管理页面-Username:6znVPwkw;Passwd:GLJCcoMJ"
-        target: "_blank" # optional html a tag target attribute
-        tag: "vpn-server"
-        url: "http://your-server-ip:2095/app/login"
-      - name: "cloudcone_zeroclaw"
-        icon: "fa-solid fa-download"
-        subtitle: "部署在cloudcone上的一个zeroclaw"
-        target: "_blank" # optional html a tag target attribute
-        tag: "zeroclaw-server"
-        url: "http://your-server-ip:8077"
-      - name: "litellm-WebUI"
-        icon: "fa-solid fa-download"
-        subtitle: "litellm的web-UI管理页面"
-        target: "_blank" # optional html a tag target attribute
-        tag: "AI-server"
-        url: "https://your-server.local:8443/litellm/"
-      - name: "Code-Server"
-        icon: "fa-solid fa-download"
-        subtitle: "VSCode-Server的Web端"
-        target: "_blank" # optional html a tag target attribute
-        tag: "AI-server"
-        url: "https://your-server.local:8443/vscode/"
+        subtitle: "服务描述"
+        tag: "tag-name"
+        url: "https://your-server.local:8443/service2/"
+
   - name: "Game"
-    icon: "fa-solid fa-arrow-right"
+    icon: "fa-solid fa-gamepad"
     items:
-      - name: "SillyTarven"
+      - name: "示例服务 3"
         icon: "fa-solid fa-download"
-        subtitle: "自部署的酒馆"
-        target: "_blank" # optional html a tag target attribute
-        tag: "AI-Game"
-        url: "https://your-server.local:8443/st/"
-      - name: "ComfyUI"
-        icon: "/data/data/com.termux/files/home/Blog/homer/assets/icons/comfyui.png"
-        subtitle: "自部署的AI绘图"
-        target: "_blank" # optional html a tag target attribute
-        tag: "AI-server"
-        url: "http://your-server.local:8005"
-      - name: "deepseek平台"
-        icon: "/data/data/com.termux/files/home/Blog/homer/assets/icons/comfyui.png"
-        subtitle: "DeepSeek的API管理平台"
-        target: "_blank" # optional html a tag target attribute
-        tag: "AI-server"
-        url: "https://platform.deepseek.com/usage"
+        subtitle: "服务描述"
+        tag: "tag-name"
+        url: "http://your-server.local:8000"

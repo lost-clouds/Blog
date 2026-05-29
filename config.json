@@ -1,5 +1,6 @@
 {
-  "title": "控制台",
+  "_说明": "服务导航配置示例。将其复制为 ../config.json 并修改为自己的服务列表",
+  "title": "我的控制台",
   "subtitle": "服务导航",
   "services": [
     {
@@ -7,67 +8,32 @@
       "icon": "🖥️",
       "items": [
         {
-          "name": "llama.cpp-OT",
+          "name": "示例服务-AI对话",
           "icon": "🤖",
-          "subtitle": "自部署的AI对话",
+          "subtitle": "自部署的AI对话服务",
           "tag": "AI",
           "url": "https://your-server.local:8443/llm/"
         },
         {
-          "name": "llama.cpp-Embedding",
-          "icon": "🧩",
-          "subtitle": "自部署的AI分词",
-          "tag": "AI",
-          "url": "https://your-server.local:8443/embd/"
-        },
-        {
-          "name": "CouchDB",
+          "name": "示例服务-数据库",
           "icon": "🗄️",
-          "subtitle": "自部署的CouchDB数据库",
+          "subtitle": "自部署的数据库管理",
           "tag": "DB",
-          "url": "https://your-server.local:8443/couchdb/_utils/"
+          "url": "https://your-server.local:8443/db/"
         },
         {
-          "name": "Vaultwarden",
+          "name": "示例服务-密码管理",
           "icon": "🔐",
-          "subtitle": "自部署的Bitwarden密码管理",
+          "subtitle": "自部署的密码管理器",
           "tag": "安全",
-          "url": "https://your-server.local:8443/vaultwarden"
+          "url": "https://your-server.local:8443/vault/"
         },
         {
-          "name": "SE-CouchDB-WebUI",
-          "icon": "🗄️",
-          "subtitle": "CouchDB数据库Web管理",
-          "tag": "DB",
-          "url": "https://your-server.local:8877"
-        },
-        {
-          "name": "S-UI",
-          "icon": "🔗",
-          "subtitle": "代理管理页面",
-          "tag": "代理",
-          "url": "http://your-server-ip:2095/app/login"
-        },
-        {
-          "name": "CloudCone ZeroClaw",
-          "icon": "☁️",
-          "subtitle": "部署在CloudCone的ZeroClaw",
-          "tag": "VPS",
-          "url": "http://your-server-ip:8077"
-        },
-        {
-          "name": "LiteLLM-WebUI",
-          "icon": "🌐",
-          "subtitle": "LiteLLM的Web管理页面",
-          "tag": "AI",
-          "url": "https://your-server.local:8443/litellm/"
-        },
-        {
-          "name": "Code-Server",
+          "name": "示例服务-代码编辑器",
           "icon": "💻",
-          "subtitle": "VSCode-Server的Web端",
+          "subtitle": "Web端代码编辑器",
           "tag": "开发",
-          "url": "https://your-server.local:8443/vscode/"
+          "url": "https://your-server.local:8443/editor/"
         }
       ]
     },
@@ -76,25 +42,18 @@
       "icon": "🎮",
       "items": [
         {
-          "name": "SillyTavern",
-          "icon": "🎭",
-          "subtitle": "自部署的酒馆",
-          "tag": "AI游戏",
-          "url": "https://your-server.local:8443/st/"
-        },
-        {
-          "name": "ComfyUI",
+          "name": "示例服务-AI绘图",
           "icon": "🎨",
-          "subtitle": "自部署的AI绘图",
+          "subtitle": "自部署的AI绘图工具",
           "tag": "AI绘图",
-          "url": "http://your-server.local:8005"
+          "url": "http://your-server.local:8000"
         },
         {
-          "name": "DeepSeek平台",
+          "name": "示例服务-API管理",
           "icon": "🧠",
-          "subtitle": "DeepSeek的API管理平台",
+          "subtitle": "API管理平台",
           "tag": "API",
-          "url": "https://platform.deepseek.com/usage"
+          "url": "https://example.com/api"
         }
       ]
     }
