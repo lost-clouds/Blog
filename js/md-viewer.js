@@ -285,7 +285,7 @@
         _currentFile = null;
         closeToc();
         closeMdLightbox();
-        document.title = '控制台 - 控制台';
+        document.title = '控制台';
 
         // 清除进度条
         var bar = document.getElementById('mdProgressBar');

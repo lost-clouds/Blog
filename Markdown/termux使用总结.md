@@ -223,7 +223,7 @@ finally:
     zeroconf.close()
 
     print("[INFO] Zeroconf stopped.")
-~/Blog/mdns $ cat config.json
+~/mdns $ cat config.json
 ```
 ### 2.2 config.json示例如下
 ```

@@ -27,10 +27,10 @@
 
 ```bash
 # 1. 克隆项目到你的服务器
-git clone https://github.com/example/Blog.git ~/Blog/Blog
+git clone https://github.com/example/Blog.git ~/Blog
 
 # 2. 下载前端依赖库（一次性）
-cd ~/Blog/Blog/lib
+cd ~/Blog/lib
 curl -sSLO https://cdn.jsdelivr.net/npm/marked/marked.min.js
 curl -sSLO https://cdn.jsdelivr.net/npm/katex/dist/katex.min.js
 curl -sSLO https://cdn.jsdelivr.net/npm/katex/dist/katex.min.css
@@ -39,14 +39,14 @@ curl -sSLO https://cdn.jsdelivr.net/npm/github-markdown-css/github-markdown.min.
 
 # 3. 将 example/Blog.conf 复制到 nginx 配置目录，修改路径
 cp example/Blog.conf $PREFIX/etc/nginx/conf.d/Blog.conf
-# 编辑：将所有 /path/to/Blog 替换为 ~/Blog/Blog 的绝对路径
+# 编辑：将所有 /path/to/Blog 替换为 ~/Blog 的绝对路径
 
 # 4. 启动仪表盘定时采集（每 30 秒）
 # 编辑 corn.sh：将 OUTPUT 路径改为实际 dashboard.json 路径
 # 然后添加 crontab：
 #   crontab -e
-#   * * * * * ~/Blog/Blog/corn.sh
-#   * * * * * sleep 30; ~/Blog/Blog/corn.sh
+#   * * * * * ~/Blog/corn.sh
+#   * * * * * sleep 30; ~/Blog/corn.sh
 
 # 5. 重载 nginx 并访问
 nginx -s reload
@@ -326,8 +326,8 @@ HTML 文章点击 → `window.open('/Html/<name>', '_blank')` 新标签页打开
 以下 5 个文件必须放入 `lib/` 目录。**下载一次即可，后续完全离线运行。**
 
 ```bash
-mkdir -p ~/Blog/Blog/lib
-cd ~/Blog/Blog/lib
+mkdir -p ~/Blog/lib
+cd ~/Blog/lib
 
 # marked — Markdown 解析器
 curl -sSLO https://cdn.jsdelivr.net/npm/marked/marked.min.js
@@ -350,7 +350,7 @@ ls -lh lib/
 **Step 1 — 复制配置模板**
 
 ```bash
-cp ~/Blog/Blog/example/Blog.conf $PREFIX/etc/nginx/conf.d/Blog.conf
+cp ~/Blog/example/Blog.conf $PREFIX/etc/nginx/conf.d/Blog.conf
 ```
 
 **Step 2 — 修改路径**
@@ -358,9 +358,9 @@ cp ~/Blog/Blog/example/Blog.conf $PREFIX/etc/nginx/conf.d/Blog.conf
 编辑 `$PREFIX/etc/nginx/conf.d/Blog.conf`，将所有 `/path/to/Blog` 替换为实际路径：
 
 ```nginx
-# 假设项目在 /data/data/com.termux/files/home/Blog/Blog
+# 假设项目在 /path/to/Blog
 # 用 sed 一键替换：
-sed -i 's|/path/to/Blog|/data/data/com.termux/files/home/Blog/Blog|g' \
+sed -i 's|/path/to/Blog|/path/to/Blog|g' \
     $PREFIX/etc/nginx/conf.d/Blog.conf
 ```
 
@@ -422,15 +422,15 @@ nginx -s reload             # 重载
 **Step 1 — 修改 corn.sh 输出路径**
 
 ```bash
-sed -i 's|/path/to/Blog|/data/data/com.termux/files/home/Blog/Blog|g' \
-    ~/Blog/Blog/corn.sh
+sed -i 's|/path/to/Blog|/path/to/Blog|g' \
+    ~/Blog/corn.sh
 ```
 
 **Step 2 — 手动测试**
 
 ```bash
-bash ~/Blog/Blog/corn.sh
-cat ~/Blog/Blog/dashboard.json
+bash ~/Blog/corn.sh
+cat ~/Blog/dashboard.json
 # 应看到类似 {"device":{"model":"Xiaomi 14",...},...} 的 JSON
 ```
 
@@ -439,8 +439,8 @@ cat ~/Blog/Blog/dashboard.json
 ```bash
 crontab -e
 # 添加以下两行（每 30 秒执行一次）：
-# * * * * * /data/data/com.termux/files/home/Blog/Blog/corn.sh
-# * * * * * sleep 30; /data/data/com.termux/files/home/Blog/Blog/corn.sh
+# * * * * * /path/to/Blog/corn.sh
+# * * * * * sleep 30; /path/to/Blog/corn.sh
 ```
 
 > **Termux 注意**：需要先启动 cron 服务。`sv-enable crond` (termux-services) 或手动 `crond`。
@@ -489,8 +489,8 @@ nginx -s reload
 curl http://127.0.0.1:7443/api/md/
 
 # 2. 目录是否为空
-ls ~/Blog/Blog/Markdown/
-ls ~/Blog/Blog/Image/
+ls ~/Blog/Markdown/
+ls ~/Blog/Image/
 
 # 3. 浏览器控制台 (F12) 有无 fetch 错误 —— 通常是 nginx 配置路径不对
 ```
@@ -499,10 +499,10 @@ ls ~/Blog/Blog/Image/
 
 ```bash
 # 检查 dashboard.json 是否存在且格式正确
-cat ~/Blog/Blog/dashboard.json
+cat ~/Blog/dashboard.json
 
 # 手动执行一次采集脚本
-bash ~/Blog/Blog/corn.sh
+bash ~/Blog/corn.sh
 
 # 确认 crond 在运行
 ps aux | grep crond
