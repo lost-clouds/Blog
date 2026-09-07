@@ -1505,7 +1505,7 @@ body.dark .bottom-nav {
 }
 /**
  * responsive.css
- * 响应式断点：Pad (≤1023px)、手机 (≤639px)、小屏 (≤400px)、大屏 (≥1200px)。
+ * 响应式断点：博客聚焦阅读(≤1199px)、Pad (≤1023px)、手机 (≤639px)、小屏 (≤400px)、大屏 (≥1200px)。
  * 兼容性回退：backdrop-filter 不支持时的纯色降级。
  * 依赖变量：variables.css
  */
@@ -1523,6 +1523,63 @@ body.dark .bottom-nav {
     }
     .gallery-grid {
         grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
+    }
+}
+
+/* ---- 博客聚焦阅读 (≤ 1199px)：两侧栏自动折叠/展开 ----
+   屏幕宽度不足 1200px 时，左侧文章列表与右侧目录自动折叠为遮罩抽屉/顶部下拉，
+   正文获得最大可读宽度；侧栏通过移动端顶栏按钮(☰ / 📑)按需展开。
+   屏幕宽 ≥1200px 时回到默认三栏内联布局（见 components/blog.css）。
+   设计取舍：此处只控制侧栏的可见性与抽屉形态；页面级滚动等引擎差异仍由
+   下方 ≤639px 断点处理，使平板(640-1199px)保留桌面级内部滚动与常驻顶栏。 */
+@media (max-width: 1199px) {
+    /* 左侧文章列表 → 左侧抽屉 */
+    .blog-sidebar {
+        position: fixed;
+        left: 0;
+        top: 0;
+        bottom: 0;
+        z-index: 900;
+        width: 17rem;
+        min-width: 0;
+        margin-right: 0;
+        border-radius: 0;
+        border-left: none;
+        transform: translateX(-100%);
+        transition: transform 0.25s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+    }
+    #blog-menu-ctrl:checked ~ .blog-layout .blog-sidebar {
+        transform: translateX(0);
+    }
+    #blog-menu-ctrl:checked ~ .blog-sidebar-overlay {
+        display: block;
+    }
+
+    /* 右侧目录 → 顶部下拉面板 */
+    .blog-toc {
+        display: none;
+        position: fixed;
+        left: 0;
+        right: 0;
+        top: 56px;
+        z-index: 850;
+        width: auto;
+        min-width: 0;
+        max-height: 50vh;
+        border-radius: 0 0 var(--radius-md) var(--radius-md);
+    }
+    #blog-toc-ctrl:checked ~ .blog-layout .blog-toc {
+        display: block;
+    }
+
+    /* 正文撑满宽度（取消与内联目录的右间距） */
+    .blog-content {
+        margin-right: 0;
+    }
+
+    /* 显示移动端顶栏（含 ☰ / 标题 / 📑 切换按钮） */
+    .blog-header-mobile {
+        display: flex;
     }
 }
 
@@ -1589,7 +1646,9 @@ body.dark .bottom-nav {
         width: 36px;
     }
 
-    /* 博客 — 移动端三栏变单栏 */
+    /* 博客 — 移动端页面级滚动 + 正文收紧
+       侧栏抽屉/下拉/顶栏的可见性规则已上移到 ≤1199px 断点，此处仅保留
+       手机特有的布局引擎差异（页面滚动、纵向堆叠）与正文内边距收紧 */
     #sec-blog.active {
         height: auto;
         min-height: 0;
@@ -1600,50 +1659,9 @@ body.dark .bottom-nav {
         flex-direction: column;
         flex: none;
     }
-    .blog-sidebar {
-        position: fixed;
-        left: 0;
-        top: 0;
-        bottom: 0;
-        z-index: 900;
-        width: 17rem;
-        min-width: 0;
-        margin-right: 0;
-        border-radius: 0;
-        border-left: none;
-        transform: translateX(-100%);
-        transition: transform 0.25s cubic-bezier(0.2, 0.9, 0.4, 1.1);
-    }
-    #blog-menu-ctrl:checked ~ .blog-layout .blog-sidebar {
-        transform: translateX(0);
-    }
-    #blog-menu-ctrl:checked ~ .blog-sidebar-overlay {
-        display: block;
-    }
-
-    .blog-toc {
-        display: none;
-        position: fixed;
-        left: 0;
-        right: 0;
-        top: 56px;
-        z-index: 850;
-        width: auto;
-        min-width: 0;
-        max-height: 50vh;
-        border-radius: 0 0 var(--radius-md) var(--radius-md);
-    }
-    #blog-toc-ctrl:checked ~ .blog-layout .blog-toc {
-        display: block;
-    }
-
     .blog-content {
-        margin-right: 0;
         border-radius: var(--radius-md);
         padding: 1rem;
-    }
-    .blog-header-mobile {
-        display: flex;
     }
 
     /* 图库两列 */
